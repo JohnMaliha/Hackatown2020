@@ -50,6 +50,10 @@
             "Microsoft.Azure.ServiceBus": {
               "target": "Package",
               "version": "[4.1.1, )"
+            },
+            "WindowsAzure.Storage": {
+              "target": "Package",
+              "version": "[9.3.3, )"
             }
           },
           "imports": [

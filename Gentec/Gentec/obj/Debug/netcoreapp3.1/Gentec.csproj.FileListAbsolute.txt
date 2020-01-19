@@ -42,3 +42,8 @@ C:\Users\flash\OneDrive\Documents\GitHub\Hackatown2020\Gentec\Gentec\obj\Debug\n
 C:\Users\flash\OneDrive\Documents\GitHub\Hackatown2020\Gentec\Gentec\obj\Debug\netcoreapp3.1\Gentec.csproj.CopyComplete
 C:\Users\flash\OneDrive\Documents\GitHub\Hackatown2020\Gentec\Gentec\obj\Debug\netcoreapp3.1\Gentec.dll
 C:\Users\flash\OneDrive\Documents\GitHub\Hackatown2020\Gentec\Gentec\obj\Debug\netcoreapp3.1\Gentec.pdb
+C:\Users\flash\OneDrive\Documents\GitHub\Hackatown2020\Gentec\Gentec\bin\Debug\netcoreapp3.1\Azure.Core.dll
+C:\Users\flash\OneDrive\Documents\GitHub\Hackatown2020\Gentec\Gentec\bin\Debug\netcoreapp3.1\Azure.Storage.Blobs.dll
+C:\Users\flash\OneDrive\Documents\GitHub\Hackatown2020\Gentec\Gentec\bin\Debug\netcoreapp3.1\Azure.Storage.Common.dll
+C:\Users\flash\OneDrive\Documents\GitHub\Hackatown2020\Gentec\Gentec\bin\Debug\netcoreapp3.1\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\flash\OneDrive\Documents\GitHub\Hackatown2020\Gentec\Gentec\bin\Debug\netcoreapp3.1\Microsoft.WindowsAzure.Storage.dll

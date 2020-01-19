@@ -12,6 +12,10 @@ namespace Gentec
     using System.Threading.Tasks;
     using Microsoft.Azure.ServiceBus;
     using Newtonsoft.Json;
+    using Microsoft.Azure;
+    using Azure.Storage.Blobs;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Blob;
 
     class Program
     {
@@ -24,10 +28,31 @@ namespace Gentec
         const string TopicName2 = "wantedplatelistupdate";
         const string SubscriptionName2 = "bCNa4e5sJnP7zCD6";
 
+
+        const string StorageConnectionString= "DefaultEndpointsProtocol=https;AccountName=stockequipe60;AccountKey=YHwxzA5h2IRbD88AYiwtw7D1PhZo/k6O0smjYSa1zR62Twh7e4G8XVJPFMENFYFLyB0BZC0rBLZt1erL1mie0Q==;EndpointSuffix=core.windows.net";
+
         static List<string> plaques;
 
         delegate void notification();
         static notification notify;
+
+        static string store(string plaque,byte[] content)
+        {
+            CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(StorageConnectionString);
+            CloudBlobClient blobClient = cloudStorageAccount.CreateCloudBlobClient();
+            CloudBlobContainer container=blobClient.GetContainerReference("conteneurequipe60");
+            CloudBlockBlob block=container.GetBlockBlobReference(plaque+".jpg");
+            block.Properties.ContentType = "image/jpeg";
+
+            //block.UploadFromByteArrayAsync(content, 0, content.Length);
+
+            MemoryStream memStream = new MemoryStream();
+            memStream.Write(content, 0, content.Length);
+            memStream.Seek(0, SeekOrigin.Begin);
+            block.UploadFromStreamAsync(memStream);
+            return block.Uri.AbsoluteUri;
+
+        }
 
         static void update()
         {
@@ -113,7 +138,9 @@ namespace Gentec
             // Console.WriteLine($"Received message: SequenceNumber:{message.SystemProperties.SequenceNumber} Body:{Encoding.UTF8.GetString(message.Body)}");
 
             Dictionary<string, Object> values = JsonConvert.DeserializeObject<Dictionary<String, Object>>(Encoding.UTF8.GetString(message.Body));
-            
+
+
+            //Console.WriteLine(Encoding.UTF8.GetString(message.Body));
             //Console.WriteLine($" {values["Latitude"]} {values["LicensePlateCaptureTime"]} {values["Longitude"]} {values["LicensePlate"]}");
 
             Dictionary<string, Object> data = new Dictionary<string, Object>()
@@ -122,6 +149,7 @@ namespace Gentec
                 { "LicensePlate", values["LicensePlate"]},
                 { "Latitude", values["Latitude"]},
                 { "Longitude", values["Longitude"]},
+                { "ContextImageReference",store((string)values["LicensePlate"], Encoding.UTF8.GetBytes((string)values["ContextImageJpg"])) }
             };
             if(isWanted((string)values["LicensePlate"],plaques))
             { 
@@ -144,8 +172,9 @@ namespace Gentec
                 var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
                 Console.WriteLine(responseString);
-            }
-            catch (WebException e)
+                    
+                }
+                catch (WebException e)
             {
                 Console.WriteLine(e.Message);
 
